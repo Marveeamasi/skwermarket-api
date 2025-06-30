@@ -25,7 +25,7 @@ export const register = async (req: Request, res: Response, next: NextFunction):
     const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
     const user: User = {
-      id: `user${Date.now()}`,
+      id: `user${Date.now()}${otp}`,
       email,
       password: hashedPassword,
       country,

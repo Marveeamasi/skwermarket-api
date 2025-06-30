@@ -5,37 +5,7 @@ import { getUserById, getAllUsers, updateUserById, updateManyUsers, deleteUserBy
 import { compressAndUploadFile } from '../services/fileUploadService';
 import { supabase } from '../utils/supabase';
 import { User } from '../types/user';
-
-const updateUserSchema = z.object({
-  email: z.string().email().optional(),
-  country: z.string().min(1).optional(),
-  title: z.string().optional(),
-  about: z.string().optional(),
-  colors: z
-    .object({
-      primary: z.string(),
-      accent: z.string(),
-      secondary: z.string(),
-      topBarTextCol: z.string(),
-      topBarBgCol: z.string(),
-      bodyBgCol: z.string(),
-      bodyTextCol: z.string(),
-    })
-    .optional(),
-  fonts: z
-    .object({
-      title: z.string(),
-      heading: z.string(),
-      body: z.string(),
-      action: z.string(),
-    })
-    .optional(),
-});
-
-const updateManyUsersSchema = z.object({
-  ids: z.array(z.string()),
-  updateData: updateUserSchema,
-});
+import { updateManyUsersSchema, updateUserSchema } from '../utils/validation';
 
 export const handleGetUserByTitle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {

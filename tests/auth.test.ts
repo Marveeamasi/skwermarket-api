@@ -28,8 +28,7 @@ describe('Auth Routes', () => {
 
   test('POST /api/auth/login should login a verified user', async () => {
     await supabase.from('users').insert([
-      {
-        id: 'user1',
+      { 
         email: 'test@example.com',
         password: await (require('bcrypt')).hash('password123', 10),
         country: 'US',
