@@ -1,9 +1,14 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import fileUpload from 'express-fileupload';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
+import offerRoutes from './routes/offer';
+import needRoutes from './routes/need';
+import commentRoutes from './routes/comment';
 import { errorHandler } from './middlewares/errorMiddleware'; 
 
 const app = express();
@@ -23,6 +28,9 @@ app.use(fileUpload({ createParentPath: true }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/offers', offerRoutes);
+app.use('/api/needs', needRoutes);
+app.use('/api/comments', commentRoutes);
 
 // Health check
 app.get('/health', (req: Request, res: Response) => {

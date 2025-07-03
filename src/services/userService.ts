@@ -38,3 +38,19 @@ export const deleteAllUsers = async () => {
   const { error } = await supabase.from('users').delete().neq('id', '0'); // Prevent deleting all without condition
   if (error) throw new Error('Failed to delete users');
 };
+
+export const followUser = async (followerId: string, followedId: string): Promise<void> => {
+  const { data: user, error: fetchError } = await supabase.from('users').select('loyalist').eq('id', followerId).single();
+  if (fetchError) throw new Error('User not found');
+  const updatedLoyalist = [...(user.loyalist || []), followedId].filter((id, index, self) => self.indexOf(id) === index);
+  const { error } = await supabase.from('users').update({ loyalist: updatedLoyalist }).eq('id', followerId);
+  if (error) throw new Error('Failed to follow user');
+};
+
+export const unfollowUser = async (followerId: string, followedId: string): Promise<void> => {
+  const { data: user, error: fetchError } = await supabase.from('users').select('loyalist').eq('id', followerId).single();
+  if (fetchError) throw new Error('User not found');
+  const updatedLoyalist = (user.loyalist || []).filter((id: string) => id !== followedId);
+  const { error } = await supabase.from('users').update({ loyalist: updatedLoyalist }).eq('id', followerId);
+  if (error) throw new Error('Failed to unfollow user');
+};
